@@ -4,9 +4,9 @@ generator client {
   previewFeatures = ["driverAdapters"]
 }
 
-generator markdown {
-  provider = "prisma-markdown"
-  output   = "./erd_diagram.md"
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "./ERD.svg"
 }
 
 datasource db {
@@ -24,19 +24,42 @@ model Post {
   lastModDate   DateTime     @updatedAt
   isReleased    Boolean
   minutesToRead Int          @db.SmallInt
-  tags          String[]     @db.VarChar(255)
+  tags          String[]     @db.VarChar(20)
   category      PostCategory
   mdxContentId  String       @unique @db.VarChar(255)
   mdxContent    Upload       @relation("PostMdxContent", fields: [mdxContentId], references: [key], onDelete: Cascade)
+
+  @@index([mdxContentId])
 }
 
 model Upload {
   key         String       @id @db.VarChar(512)
   type        UploadType
   entityType  ResourceType @default(POST)
-  contentType String       @db.VarChar(100)
+  contentType String       @db.VarChar(100) // like image/png or whatever
   uploadedAt  DateTime     @default(now())
   post        Post?        @relation("PostMdxContent")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique @db.VarChar(255)
+  name          String    @db.VarChar(30)
+  passwordHash  String    @db.VarChar(1024)
+  role          UserRole  @default(VISITOR)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 enum PostCategory {
@@ -54,4 +77,9 @@ enum UploadType {
   AUDIO
   MDX
   OTHER
+}
+
+enum UserRole {
+  ADMIN
+  VISITOR
 }

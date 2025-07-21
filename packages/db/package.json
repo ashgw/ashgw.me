@@ -28,12 +28,14 @@
   "scripts": {
     "format": "prettier . --write",
     "format:schema": "prisma format",
+    "execute": "prisma db execute",
     "generate": "prisma generate",
     "lint": "tsc --noEmit && eslint .",
     "migrate:deploy": "prisma migrate deploy",
     "migrate:dev": "prisma migrate dev",
     "migrate:diff": "prisma migrate diff",
     "migrate:reset": "prisma migrate reset",
+    "migrate:resolve": "prisma migrate resolve",
     "migrate:status": "prisma migrate status",
     "postinstall": "prisma generate",
     "pull": "prisma db pull",
@@ -56,9 +58,12 @@
   "devDependencies": {
     "@ashgw/eslint-config": "workspace:*",
     "@ashgw/tsconfig": "workspace:*",
+    "@mermaid-js/mermaid-cli": "11.6.0",
     "@types/ws": "^8.18.1",
     "bufferutil": "^4.0.9",
     "prisma": "catalog:prisma6",
+    "prisma-erd-generator": "2.0.4",
+    "puppeteer": "24.12.0",
     "ts-roids": "catalog:",
     "typescript": "catalog:"
   }
