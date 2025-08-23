@@ -23,7 +23,7 @@ jobs:
           printf '%s' "${{ secrets.GA_AUTOMATIONS_PR_RW }}" > ~/.gh_token
           gh auth login --hostname github.com --with-token < ~/.gh_token
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
