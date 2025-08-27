@@ -1,11 +1,38 @@
-node_modules
+# Root .dockerignore
+
+# common junk
 .git
-.gitignore
-*.md
-hooks
-.devcontainers 
-.github 
-.next
-.vscode 
+**/.git
+**/.DS_Store
+**/.cache
+**/.turbo
+**/.next
+node_modules
+**/node_modules
+dist
+build
+coverage
+*.log
+npm-debug.log*
+yarn-error.log*
 
+# keep deployment folder out of context except Dockerfile itself
+deployment/**
+!deployment/blog/Dockerfile
 
+# IMPORTANT keep manifests and sources required for the build
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!package.json
+!apps/**/package.json
+!packages/**/package.json
+!tooling/**/package.json
+
+# we do need the source to build
+!apps/**
+!packages/**
+!assets/**
+!tooling/**
+!turbo.json
+!tsconfig.json
+!vitest.workspace.ts
